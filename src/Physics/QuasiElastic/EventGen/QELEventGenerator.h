@@ -20,6 +20,8 @@
 #define _QEL_EVENT_GENERATOR_H_
 
 #include "Physics/NuclearState/NuclearModelI.h"
+#include "Physics/NuclearState/SecondNucleonEmissionI.h"
+#include "Framework/Algorithm/AlgFactory.h"
 #include "Physics/Common/KineGeneratorWithCache.h"
 #include "Physics/QuasiElastic/XSection/QELUtils.h"
 #include "Framework/Utils/Range1.h"
@@ -51,6 +53,9 @@ private:
 
   void AddTargetNucleusRemnant (GHepRecord * evrec) const; ///< add a recoiled nucleus remnant
 
+  // SecondNucleonEmitter
+  const SecondNucleonEmissionI * fSecondEmitter; ///< second nucleon emitter (for SRC)
+
   const NuclearModelI *  fNuclModel;   ///< nuclear model
 
   mutable double fMinAngleEM;
@@ -62,6 +67,8 @@ private:
   /// The number of nucleons to sample from the nuclear model when choosing a maximum
   /// momentum to use in ComputeMaxXSec()
   int fMaxXSecNucleonThrows;
+  /// Map with the corresponding NuclearModel to SecondNucleonEmissionI algorithm for each nuclear model.
+  std::unordered_map<std::string, const SecondNucleonEmissionI *> fFermiMoverMap;
 
 }; // class definition
 

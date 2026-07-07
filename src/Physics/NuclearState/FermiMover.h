@@ -27,6 +27,7 @@
 #include "Framework/Interaction/Target.h"
 #include "Physics/NuclearState/SRCNuclearRecoil.h"
 #include "Physics/NuclearState/SecondNucleonEmissionI.h"
+#include "Framework/Algorithm/AlgFactory.h"
 
 namespace genie {
 
@@ -60,6 +61,8 @@ private:
   const NuclearModelI *  fNuclModel;   ///< nuclear model
 
   const SecondNucleonEmissionI *  fSecondEmitter ; 
+  /// Map with the corresponding NuclearModel to SecondNucleonEmissionI algorithm for each nuclear model.
+  std::unordered_map<std::string, const SecondNucleonEmissionI *> fFermiMoverMap;
 
 };
 
