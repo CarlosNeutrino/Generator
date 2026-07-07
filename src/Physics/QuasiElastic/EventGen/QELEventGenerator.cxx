@@ -434,7 +434,7 @@ void QELEventGenerator::LoadConfig(void)
         << fermi_mover_algids.size() << ")";
         exit(1);
     }
-    fFermiMoverMap.clear();
+    fSecondEmitterMap.clear();
     AlgFactory * algf = AlgFactory::Instance(); 
 
     for (size_t i = 0; i < nucl_model_names.size(); ++i) {
@@ -453,13 +453,13 @@ void QELEventGenerator::LoadConfig(void)
         const SecondNucleonEmissionI * emitter =
             dynamic_cast<const SecondNucleonEmissionI *>(alg);
         if (!emitter) {
-        LOG("FermiMover", pWARN)
+        LOG("QELEvent", pWARN)
             << "Could not load a valid SecondNucleonEmitter ('" << full
             << "') for nuclear model '" << nucl_model_names[i] << "' -- entry skipped";
             continue;
         }
 
-        fFermiMoverMap[nucl_model_names[i]] = emitter;
+        fSecondEmitterMap[nucl_model_names[i]] = emitter;
         LOG("QELEvent", pINFO)
         << "Registered SecondNucleonEmitter '" << full
         << "' for nuclear model '" << nucl_model_names[i] << "'";
@@ -467,8 +467,8 @@ void QELEventGenerator::LoadConfig(void)
 
     // Now resolve fSecondEmitter for the currently configured nuclear model
     fSecondEmitter = 0;
-    auto it = fFermiMoverMap.find(nucl_model_name);
-    if(it != fFermiMoverMap.end()) {
+    auto it = fSecondEmitterMap.find(nucl_model_name);
+    if(it != fSecondEmitterMap.end()) {
         fSecondEmitter = it->second;
         LOG("QELEvent", pINFO)
         << "Selected " << fSecondEmitter->Id().Name()
